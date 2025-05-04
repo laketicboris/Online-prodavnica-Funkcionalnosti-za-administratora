@@ -27,14 +27,24 @@ function kreirajRedoveArtikala() {
         tr.appendChild(cena);
 
         tabela.appendChild(tr);
+        tr.addEventListener("click", function() {prikazDetaljaArtikla(artikli[i])})
     }
+}
+function prikazDetaljaArtikla(artikal){
+    let detalji = document.querySelector("#artiklDetalji")
+    detalji.innerHTML = ""
+
+    let p = document.createElement("p")
+    p.innerHTML= "Naziv: " + artikal.naziv + "<br>" + "Cena: "+artikal.cena +"RSD<br>"+ "Opis: " + artikal.opis
+
+    detalji.appendChild(p)
 }
 
 function inicijalizujArtikle() {
     artikli = [
         new Artikal("Bluetooth zvucnik", 2999, "Prenosivi Bluetooth zvucnik."),
         new Artikal("USB C kabl", 899, "Kabl za punjenje i prenos podataka, duzina 1m."),
-        new Artikal("Mehanicka tastaturaa", 7999, "Imacete osecaj kao da kucate na pisacoj masini.")
+        new Artikal("Mehanicka tastatura", 7999, "Imacete osecaj kao da kucate na pisacoj masini.")
     ];
 
     kreirajRedoveArtikala();
