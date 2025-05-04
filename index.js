@@ -48,25 +48,31 @@ function dodavanjeArtikla() {
         const formPodaci = new FormData(forma);
 
         const naziv = formPodaci.get('naziv');
-        const cena = parseFloat(formPodaci.get('cena'));
+        const cena = formPodaci.get('cena');
         const opis = formPodaci.get('opis');
 
         const noviArtikal = new Artikal(naziv, cena, opis);
         artikli.push(noviArtikal);
 
+        sacuvajArtikleULocalStrage()
         kreirajRedoveArtikala();
         forma.reset();
     });
 }
+function ucitajArtikleiZlocalStorage(){
+    const sacuvaniArtikli = localStorage.getItem("artikli")
+    if(sacuvaniArtikli){
+        const niz = JSON.parse(sacuvaniArtikli)
+        artikli = niz.map(a => new Artikal(a.naziv, a.cena, a.opis))
+    }
+}
+function sacuvajArtikleULocalStrage(){
+    localStorage.setItem("artikli", JSON.stringify(artikli))
+}
 
 function inicijalizujArtikle() {
-    artikli = [
-        new Artikal("Bluetooth zvucnik", 2999, "Prenosivi Bluetooth zvucnik."),
-        new Artikal("USB C kabl", 899, "Kabl za punjenje i prenos podataka, duzina 1m."),
-        new Artikal("Mehanicka tastatura", 7999, "Imacete osecaj kao da kucate na pisacoj masini.")
-    ];
-
-    kreirajRedoveArtikala();
+    ucitajArtikleiZlocalStorage()
+    kreirajRedoveArtikala()
 }
 
 document.addEventListener('DOMContentLoaded', function(){
