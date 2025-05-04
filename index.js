@@ -10,6 +10,7 @@ let artikli = [];
 
 function kreirajRedoveArtikala() {
     let tabela = document.querySelector("#artikli-body");
+    tabela.innerHTML=""
 
     for (let i = 0; i < artikli.length; i++) {
         let tr = document.createElement("tr");
@@ -39,6 +40,24 @@ function prikazDetaljaArtikla(artikal){
 
     detalji.appendChild(p)
 }
+function dodavanjeArtikla() {
+    let dugmeDodaj = document.querySelector("#dodajArtiklBtn");
+
+    dugmeDodaj.addEventListener('click', function () {
+        const forma = document.querySelector('#artikl-forma');
+        const formPodaci = new FormData(forma);
+
+        const naziv = formPodaci.get('naziv');
+        const cena = parseFloat(formPodaci.get('cena'));
+        const opis = formPodaci.get('opis');
+
+        const noviArtikal = new Artikal(naziv, cena, opis);
+        artikli.push(noviArtikal);
+
+        kreirajRedoveArtikala();
+        forma.reset();
+    });
+}
 
 function inicijalizujArtikle() {
     artikli = [
@@ -50,4 +69,7 @@ function inicijalizujArtikle() {
     kreirajRedoveArtikala();
 }
 
-document.addEventListener('DOMContentLoaded', inicijalizujArtikle);
+document.addEventListener('DOMContentLoaded', function(){
+    inicijalizujArtikle()
+    dodavanjeArtikla()
+});
